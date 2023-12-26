@@ -11,7 +11,7 @@ import (
 )
 
 const endpointUrl = "https://api.tibber.com/v1-beta/gql"
-const pricesQuery = `{ "query": "{viewer {homes {currentSubscription {priceInfo {today {total startsAt} tomorrow {total startsAt}}}}}}" }`
+const pricesQuery = `{ "query": "{viewer {homes {currentSubscription {priceInfo {tomorrow {total startsAt}}}}}}" }`
 
 var (
 	client = &http.Client{
@@ -40,7 +40,6 @@ type Subscription struct {
 }
 
 type PriceInfo struct {
-	Today    []Price `json:"today"`
 	Tomorrow []Price `json:"tomorrow"`
 }
 
