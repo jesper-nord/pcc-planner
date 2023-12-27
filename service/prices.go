@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/jesper-nord/pcc-planner/tibber"
 	"log"
+	"slices"
 	"sort"
 	"time"
 )
@@ -22,32 +23,28 @@ func FetchTomorrowPrices(token string) ([]tibber.Price, error) {
 	return nil, errors.New("unable to find home")
 }
 
-func CalculateCheapestPrices(targetHours int, prices []tibber.Price) map[int]bool {
-	sort.Slice(prices, func(i, j int) bool {
-		startsAt1, _ := time.Parse(time.RFC3339, prices[i].StartsAt)
-		startsAt2, _ := time.Parse(time.RFC3339, prices[j].StartsAt)
-		return startsAt1.Before(startsAt2)
-	})
-
+func CalculateCheapestPrices(activeHours int, forcedHours []int, prices []tibber.Price) map[int]bool {
 	result := make(map[int]bool)
 
-	var totalDayPrice float64
 	for _, price := range prices {
 		startsAt, _ := time.Parse(time.RFC3339, price.StartsAt)
-		result[startsAt.Hour()] = false
-		totalDayPrice += price.Total
+		hour := startsAt.Hour()
+		result[hour] = slices.Contains(forcedHours, hour)
 	}
 
 	sort.Slice(prices, func(i, j int) bool {
 		return prices[i].Total < prices[j].Total
 	})
 
-	var total float64
-	for i := 0; i < targetHours; i++ {
+	for i := 0; i < activeHours-len(forcedHours); i++ {
 		price := prices[i]
 		startsAt, _ := time.Parse(time.RFC3339, price.StartsAt)
-		result[startsAt.Hour()] = true
-		total += price.Total
+		hour := startsAt.Hour()
+		if slices.Contains(forcedHours, hour) {
+			// hour already included
+			continue
+		}
+		result[hour] = true
 	}
 
 	log.Printf("result: %v", result)
