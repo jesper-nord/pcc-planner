@@ -8,7 +8,7 @@ import (
 )
 
 func WriteToOutput(result map[int]bool, outputDir string) error {
-	fileName := fmt.Sprintf("pcc-res-%s", time.Now().Add(time.Hour*24).Format("2006-01-02"))
+	fileName := fmt.Sprintf("pccplanner.%s", time.Now().Add(time.Hour*24).Format("2006-01-02"))
 
 	var output string
 	for hour, active := range result {
