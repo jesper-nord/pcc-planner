@@ -15,10 +15,9 @@ func FetchTomorrowPrices(token string) ([]tibber.Price, error) {
 		return nil, err
 	}
 
-	var prices []tibber.Price
 	for _, home := range response.Data.Viewer.Homes {
 		if home.Subscription != nil {
-			prices = home.Subscription.PriceInfo.Tomorrow
+			prices := home.Subscription.PriceInfo.Tomorrow
 			if len(prices) == 0 {
 				return nil, errors.New("tomorrow's prices not yet in")
 			}
