@@ -11,8 +11,8 @@ import (
 
 var tokenFlag = flag.String("token", "", "Tibber API token")
 var activeHoursFlag = flag.Int("hours", 0, "Number of active hours per period (value between 0-24)")
-var forcedHoursFlag = flag.String("forcedhours", "", "Comma separated list of forced hours (e.g. 5,6,7)")
-var outputDirFlag = flag.String("outputdir", "/tmp/pccplanner/out", "Output file directory")
+var forcedHoursFlag = flag.String("forced-hours", "", "Comma separated list of forced hours (e.g. 5,6,7)")
+var outputDirFlag = flag.String("output-dir", "/tmp/pccplanner/out", "Output file directory")
 var helpFlag = flag.Bool("help", false, "show available commands")
 
 func main() {
