@@ -4,105 +4,106 @@ import (
 	"github.com/jesper-nord/pcc-planner/tibber"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"time"
 )
 
 func TestCalculateCheapestPrices(t *testing.T) {
 	prices := []tibber.Price{
 		{
 			Total:    0.6054,
-			StartsAt: "2023-12-27T00:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 0, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    0.5502,
-			StartsAt: "2023-12-27T01:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 1, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    0.5444,
-			StartsAt: "2023-12-27T02:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 2, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    0.5486,
-			StartsAt: "2023-12-27T03:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 3, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    0.5702,
-			StartsAt: "2023-12-27T04:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 4, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    0.5878,
-			StartsAt: "2023-12-27T05:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 5, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    0.6248,
-			StartsAt: "2023-12-27T06:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 6, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    0.878,
-			StartsAt: "2023-12-27T07:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 7, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    1.1921,
-			StartsAt: "2023-12-27T08:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 8, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    1.1939,
-			StartsAt: "2023-12-27T09:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 9, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    1.1325,
-			StartsAt: "2023-12-27T10:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 10, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    1.1208,
-			StartsAt: "2023-12-27T11:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 11, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    1.1136,
-			StartsAt: "2023-12-27T12:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 12, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    1.0961,
-			StartsAt: "2023-12-27T13:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 13, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    1.1308,
-			StartsAt: "2023-12-27T14:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 14, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    1.1909,
-			StartsAt: "2023-12-27T15:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 15, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    1.2203,
-			StartsAt: "2023-12-27T16:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 16, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    1.2279,
-			StartsAt: "2023-12-27T17:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 17, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    1.1457,
-			StartsAt: "2023-12-27T18:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 18, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    1.0149,
-			StartsAt: "2023-12-27T19:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 19, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    0.8756,
-			StartsAt: "2023-12-27T20:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 20, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    0.6302,
-			StartsAt: "2023-12-27T21:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 21, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    0.5808,
-			StartsAt: "2023-12-27T22:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 22, 0, 0, 0, time.Local),
 		},
 		{
 			Total:    0.555,
-			StartsAt: "2023-12-27T23:00:00.000+01:00",
+			StartsAt: time.Date(2023, 12, 27, 23, 0, 0, 0, time.Local),
 		},
 	}
 
@@ -137,5 +138,5 @@ func TestCalculateCheapestPrices(t *testing.T) {
 	}
 
 	result := CalculateCheapestPrices(activeHours, forcedHours, prices)
-	assert.Equal(t, expected, result)
+	assert.Equal(t, expected, result.HourResult)
 }

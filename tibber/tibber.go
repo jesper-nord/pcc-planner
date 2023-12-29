@@ -12,6 +12,7 @@ import (
 
 const endpointUrl = "https://api.tibber.com/v1-beta/gql"
 const pricesQuery = `{ "query": "{viewer {homes {currentSubscription {priceInfo {tomorrow {total startsAt}}}}}}" }`
+const notificationMutation = `{"query": "mutation{ sendPushNotification(input: { title: \"%s\", message: \"%s\", screenToOpen: NOTIFICATIONS }){ successful }}"}`
 
 var (
 	client = &http.Client{
@@ -44,12 +45,12 @@ type PriceInfo struct {
 }
 
 type Price struct {
-	Total    float64 `json:"total"`
-	StartsAt string  `json:"startsAt"`
+	Total    float64   `json:"total"`
+	StartsAt time.Time `json:"startsAt"`
 }
 
 func GetPrices(accessToken string) (Response, error) {
-	response, err := doPost(accessToken)
+	response, err := doPost(accessToken, pricesQuery)
 	if err != nil {
 		return Response{}, err
 	}
@@ -69,8 +70,29 @@ func GetPrices(accessToken string) (Response, error) {
 	return responseData, nil
 }
 
-func doPost(accessToken string) (*http.Response, error) {
-	request, err := http.NewRequest("POST", endpointUrl, bytes.NewBuffer([]byte(pricesQuery)))
+func SendNotification(accessToken, title, msg string) (Response, error) {
+	response, err := doPost(accessToken, fmt.Sprintf(notificationMutation, title, msg))
+	if err != nil {
+		return Response{}, err
+	}
+	defer response.Body.Close()
+
+	jsonData, err := io.ReadAll(response.Body)
+	if err != nil {
+		return Response{}, err
+	}
+
+	var responseData Response
+	err = json.Unmarshal(jsonData, &responseData)
+	if err != nil {
+		return Response{}, err
+	}
+
+	return responseData, nil
+}
+
+func doPost(accessToken, query string) (*http.Response, error) {
+	request, err := http.NewRequest("POST", endpointUrl, bytes.NewBuffer([]byte(query)))
 	if err != nil {
 		return nil, err
 	}

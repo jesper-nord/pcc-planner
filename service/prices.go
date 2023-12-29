@@ -27,12 +27,13 @@ func FetchTomorrowPrices(token string) ([]tibber.Price, error) {
 	return nil, errors.New("unable to find home")
 }
 
-func CalculateCheapestPrices(activeHours int, forcedHours []int, prices []tibber.Price) []HourResult {
+func CalculateCheapestPrices(activeHours int, forcedHours []int, prices []tibber.Price) PriceResult {
 	var result []HourResult
 
+	var date time.Time
 	for _, price := range prices {
-		startsAt, _ := time.Parse(time.RFC3339, price.StartsAt)
-		hour := startsAt.Hour()
+		date = price.StartsAt
+		hour := price.StartsAt.Hour()
 		result = append(result, HourResult{Hour: hour, Enabled: slices.Contains(forcedHours, hour)})
 	}
 
@@ -42,8 +43,7 @@ func CalculateCheapestPrices(activeHours int, forcedHours []int, prices []tibber
 
 	for i := 0; i < activeHours-len(forcedHours); i++ {
 		price := prices[i]
-		startsAt, _ := time.Parse(time.RFC3339, price.StartsAt)
-		hour := startsAt.Hour()
+		hour := price.StartsAt.Hour()
 		if slices.Contains(forcedHours, hour) {
 			// hour already included
 			continue
@@ -57,7 +57,15 @@ func CalculateCheapestPrices(activeHours int, forcedHours []int, prices []tibber
 	}
 
 	log.Printf("result: %v", result)
-	return result
+	return PriceResult{
+		HourResult: result,
+		Date:       date,
+	}
+}
+
+type PriceResult struct {
+	Date       time.Time
+	HourResult []HourResult
 }
 
 type HourResult struct {
