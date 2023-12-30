@@ -107,8 +107,8 @@ func TestCalculateCheapestPrices(t *testing.T) {
 		},
 	}
 
-	activeHours := 12
-	forcedHours := []int{19, 20}
+	activeHours := 16
+	forcedHours := []int{0, 1, 2, 3, 4, 5, 6, 7, 22, 23}
 
 	expected := []HourResult{
 		{Hour: 0, Enabled: true},
@@ -118,13 +118,13 @@ func TestCalculateCheapestPrices(t *testing.T) {
 		{Hour: 4, Enabled: true},
 		{Hour: 5, Enabled: true},
 		{Hour: 6, Enabled: true},
-		{Hour: 7, Enabled: false},
+		{Hour: 7, Enabled: true},
 		{Hour: 8, Enabled: false},
 		{Hour: 9, Enabled: false},
 		{Hour: 10, Enabled: false},
-		{Hour: 11, Enabled: false},
-		{Hour: 12, Enabled: false},
-		{Hour: 13, Enabled: false},
+		{Hour: 11, Enabled: true},
+		{Hour: 12, Enabled: true},
+		{Hour: 13, Enabled: true},
 		{Hour: 14, Enabled: false},
 		{Hour: 15, Enabled: false},
 		{Hour: 16, Enabled: false},
